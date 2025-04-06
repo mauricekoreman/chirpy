@@ -37,6 +37,7 @@ func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, req *http.Request
 	hashedPassword, err := auth.HashPassword(params.Password)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "creating password went wrong", err)
+		return
 	}
 
 	user, err := cfg.db.CreateUser(req.Context(), database.CreateUserParams{
