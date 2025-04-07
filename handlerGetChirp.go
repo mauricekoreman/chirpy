@@ -13,11 +13,13 @@ func (cfg *apiConfig) handlerGetChirp(w http.ResponseWriter, req *http.Request) 
 	chirpUUID, err := uuid.Parse(chirpId)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "something went wrong...", err)
+		return
 	}
 
 	chirp, err := cfg.db.GetChirp(req.Context(), chirpUUID)
 	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "something went wrong retrieving the chirp", err)
+		respondWithError(w, http.StatusNotFound, "something went wrong retrieving the chirp", err)
+		return
 	}
 
 	respondWithJSON(w, http.StatusOK, Chirp{
