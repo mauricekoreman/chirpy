@@ -18,3 +18,9 @@ set email = $2,
     updated_at = NOW()
 where id = $1
 returning *;
+
+-- name: UpgradeToChirpyRed :one
+update users
+set is_chirpy_red = TRUE
+where id = $1
+returning *;
